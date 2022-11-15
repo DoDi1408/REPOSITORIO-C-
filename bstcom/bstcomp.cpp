@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <limits.h>
 #include <unordered_map>
 #include <fstream>
 #include <string> 
@@ -19,23 +18,22 @@ struct Node {
 
 
 unordered_map<string,int> fillHash(){
+
     istringstream iss;
     ifstream file;
     string line, month, day, hour, ip, num_str;
-    vector <string> v; 
     unordered_map<string,int> output;
     file.open("bitacora.txt");
     while (getline(file, line)){
-            v.push_back(line);
-            iss.str(v[0]);
+            iss.str(line);
             iss >> month >> day >> hour >> ip;
-            if (output[ip] == 0){
-            output[ip] = 1;
+            num_str = ip.substr(0,13);
+            if (output[num_str] == 0){
+                output[num_str] = 1;
             }
             else{
-            output[ip] += 1;
+                output[num_str] += 1;
             }
-            v.pop_back();
     }
     return output;
 }
@@ -52,7 +50,7 @@ void insert(string value, Node *&root, int key){
             insert(value,root->right,key);
         }
         else{
-            insert(value,root->left,key);
+            insert(value,root->right,key);
             return;
         }
     }
@@ -76,13 +74,17 @@ void printBIG(Node* root){
     if(root == NULL){
         return;
     }
-    cout << root->key << " ";
+    cout << "The IP " << root->ip  << " has repeated " << root->key <<  " times " << " " << endl;
     printBIG(root->right);
 }
 
 int main(){
     unordered_map <string,int> HASH = fillHash();
     Node *root(NULL);
+    //for (auto x : HASH)
+    //cout << x.first << " " <<
+    //        x.second << endl;
+
     fillBST(root,HASH);
     printBIG(root);
 }

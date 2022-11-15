@@ -116,11 +116,13 @@ void priorityQueue::push(int newNum,int priority){
             i = parent(i);
     }
 }
+
 void priorityQueue::display(){
     for (int i = 0; i < this->heapTree.size();i++){
         cout << this->heapTree[i].value << endl;
     }
 }
+
 int main(){
     priorityQueue PQ;
     if (PQ.isEmpty()){
